@@ -15,7 +15,7 @@ class App extends React.Component {
         humidity: undefined,
         description: undefined,
         error: undefined
-    }
+    };
 
     getWeather = async (e) => {
 
@@ -26,16 +26,27 @@ class App extends React.Component {
         const apiCall = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}`);
         const data = await apiCall.json();
 
-        console.log(data);
+        if (city && country) {
+            console.log(data);
 
-        this.setState({
-            temperature: data.main.temp,
-            city: data.name,
-            country: data.sys.country,
-            humidity: data.main.humidity,
-            description: data.weather[0].description,
-            error: ""
-        })
+            this.setState({
+                temperature: data.main.temp,
+                city: data.name,
+                country: data.sys.country,
+                humidity: data.main.humidity,
+                description: data.weather[0].description,
+                error: ""
+            });
+        } else {
+            this.setState({
+                temperature: undefined,
+                city: undefined,
+                country: undefined,
+                humidity: undefined,
+                description: undefined,
+                error: "Please enter City and Country"
+            });
+        }
     };
   render() {
     return (
@@ -48,7 +59,7 @@ class App extends React.Component {
                 country={this.state.country}
                 humidity={this.state.humidity}
                 description={this.state.description}
-                erorr={this.state.error}
+                error={this.state.error}
             />
         </div>
     );
